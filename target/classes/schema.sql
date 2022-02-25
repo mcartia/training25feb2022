@@ -1,6 +1,6 @@
-create table people(
-    id identity not null primary key,
-    firstName varchar,
-    lastName varchar,
-    email varchar
+create table PEOPLE(
+    ID identity not null primary key,
+    FIRST_NAME varchar,
+    LAST_NAME varchar,
+    EMAIL varchar
 );

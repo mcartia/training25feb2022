@@ -1,8 +1,10 @@
 package it.training.spring.dayone.model;
 
+import org.springframework.data.annotation.Id;
+
 public class People {
 
-    private long id;
+    private @Id Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -10,7 +12,7 @@ public class People {
     public People() {
     }
 
-    public People(long id, String firstName, String lastName, String email) {
+    public People(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,7 +23,7 @@ public class People {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import javax.sql.DataSource;
 import javax.sql.RowSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,9 @@ public class Main {
 
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    PeopleRepository peopleRepository;
 
     public static void main(String[] args) {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -42,23 +46,19 @@ public class Main {
         /* OUR CODE HERE
         /*--------------------------*/
 
-        String insertSql1 = "insert into people(firstName, lastName, email) values('Mario','Cartia','mario.cartia@gmail.com')";
-        String insertSql2 = "insert into people(firstName, lastName, email) values('Giuseppe','Rossi','g.rossi@gmail.com')";
-        main.jdbcTemplate.update(insertSql1, (Map<String, ?>) null);
-        main.jdbcTemplate.update(insertSql2, (Map<String, ?>) null);
+        List myPeoples = new ArrayList<People>();
+        People p1 = new People(null,"Mario","Cartia","mario.cartia@gmail.com");
+        People p2 = new People(null,"Giuseppe","Rossi","g.rossi@gmail.com");
+        myPeoples.add(p1);
+        myPeoples.add(p2);
 
-        String selectAll = "select * from people";
-        /*SqlRowSet rs = main.jdbcTemplate.queryForRowSet(selectAll, (Map<String, ?>) null);
+        // saving records to DB
+        main.peopleRepository.saveAll(myPeoples);
 
-        while (rs.next()) {
-            System.out.println("+ "+rs.getLong("id")
-                    +","+rs.getString("firstName")
-                    +","+rs.getString("lastName")+","
-                    +rs.getString("email"));
-        }*/
-        List<People> peoples = main.jdbcTemplate.query(selectAll, (Map<String, ?>) null, new PeopleMapper());
+        // fetching data from DB
+        List<People> dbPeople = (List) main.peopleRepository.findAll();
 
-        for (People p : peoples) {
+        for (People p : dbPeople) {
             System.out.println("> "+p);
         }
 
