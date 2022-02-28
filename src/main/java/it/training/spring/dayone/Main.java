@@ -19,13 +19,13 @@ import java.util.Map;
 public class Main {
 
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
-    @Autowired
-    DataSource dataSource;
+    PeopleGenerator peopleGenerator;
 
     @Autowired
     PeopleRepository peopleRepository;
+
+    @Autowired
+    PeopleService peopleService;
 
     public static void main(String[] args) {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -46,21 +46,7 @@ public class Main {
         /* OUR CODE HERE
         /*--------------------------*/
 
-        List myPeoples = new ArrayList<People>();
-        People p1 = new People(null,"Mario","Cartia","mario.cartia@gmail.com");
-        People p2 = new People(null,"Giuseppe","Rossi","g.rossi@gmail.com");
-        myPeoples.add(p1);
-        myPeoples.add(p2);
-
-        // saving records to DB
-        main.peopleRepository.saveAll(myPeoples);
-
-        // fetching data from DB
-        List<People> dbPeople = (List) main.peopleRepository.findAll();
-
-        for (People p : dbPeople) {
-            System.out.println("> "+p);
-        }
+        System.out.println(main.peopleRepository.getFake());
 
         /*--------------------------*/
         ((AnnotationConfigApplicationContext) ctx).close();
